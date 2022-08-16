@@ -92,6 +92,19 @@ class System_user_role_module_access_model extends CI_Model
         return $array;
     }
 
+    public function can_access($module_id=NULL,$role_id=NULL){
+
+    	$query = $this->db->select('*')
+            ->from($this->table)
+            ->where('deleted_at', NULL)
+            ->where('deleted_by', NULL)
+            ->where('web_module_id', $module_id)
+            ->where('role_id', $role_id)
+            ->get();
+
+        return $query->result();
+    }
+
     
 
 }
