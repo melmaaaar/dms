@@ -80,7 +80,7 @@ class System_web_sections_model extends CI_Model
                 ->where('deleted_at', NULL)
                 ->where('deleted_by', NULL)
                 ->where("web_module_id", $id)
-                ->order("ctr","asc")
+                ->order_by("ctr","asc")
                 ->get(); 
 
         return $query->result();

@@ -26,20 +26,40 @@
       </div>
 
       <?php foreach ($sidebar_modules as $key => $value): ?>
-        <?php $sidebar_sections = $this->M_system_web_section->get_by_module_id($value->id);
-          $section_array = array();
+        <?php 
+        $sidebar_sections = $this->M_system_web_section->get_by_module_id($value->id);
+        $section_array = array();
           foreach ($sidebar_sections as $s => $val) {
             if (in_array($val->id, $can_access_sections)) {
               array_push($section_array, $val->id);
             }
           }
-        ?>
-        
+				?>
+        <?php if (empty($sidebar_sections)): ?>
+          <li class="nav-item">
+					<?php if (in_array($value->id, $can_access_modules)): ?>
+                <a href="<?php ($value->link) ? $value->link : '#'; ?>" class="nav-link <?php ($value->name === $_SESSION['system_web_module']) ? 'active':''; ?> ">
+                  <?php echo $value->icon;?>
+                  <p>
+                    <?php echo $value->name;?>
+                  </p>
+                </a>
+					<?php endif; ?>
+          </li>
+				<?php endif; ?>
       <?php endforeach; ?>
 
       
 
-     
+      <li class="nav-item menu-open">
+          <a href="#" class="nav-link active">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Dashboard 
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+      </li>
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
