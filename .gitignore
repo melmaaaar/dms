@@ -8,10 +8,9 @@ application/logs/*
 
 !application/*/.htaccess
 
-assets/*
-!assets/documents/*
-!assets/qr_codes/*
-!assets/img/*
+assets/documents/*
+assets/qr_codes/*
+assets/img/*
 
 composer.lock
 tests/mocks/database/ci_test.sqlite
@@ -40,5 +39,3 @@ application/storage/*
 
 
 application/config/*
-!application/config/database.php
-!application/config/config.php
