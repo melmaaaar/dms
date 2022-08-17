@@ -56,13 +56,13 @@
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                       <a href="../tables/simple.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p><?php echo json_encode($section_array); ?></p>
+                        <i class="fas fa-circle nav-icon"></i>
+                        <p><?php echo $value->name; ?></p>
                       </a>
                     </li>
                 </ul>
               </li>
-            <?php endif; ?>
+            <?php endif; ?> 
           <?php endforeach; ?>
         </ul>
       </nav>
