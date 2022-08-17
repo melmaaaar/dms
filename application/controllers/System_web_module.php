@@ -28,8 +28,24 @@ class System_web_module extends CI_Controller {
 		$_SESSION['system_web_section'] = 'Web Modules';
 
 		$data['page_info'] = array(
-            'styles_path' => '',
+            'styles_path' => array(
+                'assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min',
+                'assets/plugins/datatables-responsive/css/responsive.bootstrap4.min',
+                'assets/plugins/datatables-buttons/css/buttons.bootstrap4.min'
+            ),
             'scripts_path' => array(
+                'assets/plugins/datatables/jquery.dataTables.min',
+                'assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min',
+                'assets/plugins/datatables-responsive/js/dataTables.responsive.min',
+                'assets/plugins/datatables-responsive/js/responsive.bootstrap4.min',
+                'assets/plugins/datatables-buttons/js/dataTables.buttons.min',
+                'assets/plugins/datatables-buttons/js/buttons.bootstrap4.min',
+                'assets/plugins/jszip/jszip.min',
+                'assets/plugins/pdfmake/pdfmake.min',
+                'assets/plugins/pdfmake/vfs_fonts',
+                'assets/plugins/datatables-buttons/js/buttons.html5.min',
+                'assets/plugins/datatables-buttons/js/buttons.print.min',
+                'assets/plugins/datatables-buttons/js/buttons.colVis.min',
                 'assets/js/pages/system_web_module/index'
             )
         );
@@ -78,6 +94,14 @@ class System_web_module extends CI_Controller {
 
     }
 
+    public function datatable_get_all()
+    {
+        $data['data'] = $this->M_system_web_module->get_all();
+        
+        echo json_encode($data);
+
+    }
+
     // Function to load the view of Create
     public function create()
     {
@@ -116,72 +140,37 @@ class System_web_module extends CI_Controller {
             $link = $this->security->xss_clean($this->input->post('link'));
             $icon = $this->security->xss_clean($this->input->post('icon'));
             $ctr = $this->security->xss_clean($this->input->post('ctr'));
+            $is_active = $this->security->xss_clean($this->input->post('is_active'));
 
             if($name!=='' &&  $code!=='')
             {
                 $data = array (
-                    'name' => $this->security->xss_clean($this->input->post('school_id')),
-                    'code' => $this->security->xss_clean($this->input->post('name')),
-                    'description' => $this->security->xss_clean($this->input->post('code')),
-                    'link' => $this->security->xss_clean($this->input->post('description')),
-                    'icon' => $this->security->xss_clean($this->session->userdata('user_id')),
-                    'ctr' => $this->security->xss_clean(date('y-m-d H:i:s')),
-                    'created_by' => $this->security->xss_clean($this->session->userdata('user_id')),
+                    'name' => $name,
+                    'code' => $code,
+                    'description' => $description,
+                    'link' => $link,
+                    'icon' => $icon,
+                    'ctr' => $ctr,
+                    'is_active' => $is_active,
+                    'created_by' => $_SESSION['user_id'],
                     'created_at' => $this->security->xss_clean(date('y-m-d H:i:s')),
                 );
 
+                $id = $this->M_system_web_module->insert($data);
 
+                if(!$id){
+                    echo json_encode($response);
+                    return;
+                }
+
+                //abang para sa user action logs
+
+                $response['status'] = 1;
+                $response['message'] = 'Successful!';
 
             }else{
                 $response['message'] = 'Please fill up the required fields. Thank you.';
             }
-        }
-
-        echo json_encode($response);
-
-
-        $school_id = $this->input->post('school_id');
-        $name = $this->input->post('name'); 
-        $code = $this->input->post('code');
-        $description = $this->input->post('description');
-
-        if($name!=='' && $code!=='' && $school_id>=1)
-        {   
-
-            $data = array (
-                'school_id' => $this->security->xss_clean($this->input->post('school_id')),
-                'name' => $this->security->xss_clean($this->input->post('name')),
-                'code' => $this->security->xss_clean($this->input->post('code')),
-                'description' => $this->security->xss_clean($this->input->post('description')),
-                'created_by' => $this->security->xss_clean($this->session->userdata('user_id')),
-                'created_at' => $this->security->xss_clean(date('y-m-d H:i:s')),
-            );
-
-            $id = $this->M_campus->save($data);
-
-            if($id)
-            {
-                $user_res = $this->M_user->get($this->session->userdata('user_id'));
-
-                $logs = array (
-                    'action' => ucwords($user_res[0]->first_name) . ' ' . ucwords($user_res[0]->last_name) . ' has created a campus.',
-                    'reference_id' => $id,
-                    'created_by' => $this->session->userdata('user_id'),
-                    'created_at' => date('y-m-d H:i:s')
-                );
-
-                $this->M_user_action_history_log->save($logs);
-                
-                $response['status'] = 1;
-                $response['message'] = 'Save Successful!';
-            }
-
-            echo json_encode($response);
-            return;
-        }       
-        else{
-
-            $response['message'] = 'Please complete all required fields! Please try again.';
         }
 
         echo json_encode($response);
@@ -272,29 +261,18 @@ class System_web_module extends CI_Controller {
         $response['message'] = 'Something went wrong. Please contact your technical support.';
 
         $data = array (
-            'deleted_by' => $this->security->xss_clean($this->session->userdata('user_id')),
+            'deleted_by' => $_SESSION['user_id'],
             'deleted_at' => date('y-m-d H:i:s'),
         );
 
-        $result = $this->M_campus->delete($data,$id);
+        $result = $this->M_system_web_module->delete($data,$id);
 
         if($result)
         {
-            $user_res = $this->M_user->get($this->session->userdata('user_id'));
-
-            $logs = array (
-                'action' => ucwords($user_res[0]->first_name) . ' ' . ucwords($user_res[0]->last_name) . ' has deleted a campus.',
-                'reference_id' => $id,
-                'created_by' => $this->session->userdata('user_id'),
-                'created_at' => date('y-m-d H:i:s')
-            );
-
-            $this->M_user_action_history_log->save($logs);
-
             $response['status'] = 1;
             $response['message'] = 'Delete Successful!';
         }   
-
+        
         echo json_encode($response);
         
     }

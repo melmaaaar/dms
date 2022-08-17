@@ -15,6 +15,7 @@ class System_web_modules_model extends CI_Model
             ->where('deleted_at', NULL)
             ->where('deleted_by', NULL)
             ->where('is_active', 1)
+            ->order_by(1, 'asc')
             ->get();
 
         return $query->result();

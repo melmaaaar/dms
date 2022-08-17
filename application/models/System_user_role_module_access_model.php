@@ -14,6 +14,7 @@ class System_user_role_module_access_model extends CI_Model
             ->from($this->table)
             ->where('deleted_at', NULL)
             ->where('deleted_by', NULL)
+            ->order_by(1, 'asc')
             ->get();
 
         return $query->result();

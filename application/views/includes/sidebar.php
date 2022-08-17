@@ -46,22 +46,28 @@
                 </li>
               <?php endif; ?>
             <?php else: ?>
-              <li class="nav-item <?php echo ($value->name === $_SESSION['system_web_module']) ? 'menu-open' : ''; ?>">
-                <a href="<?php echo (!empty($value->link)) ? base_url().$value->link : '#'; ?>" class="nav-link <?php echo ($value->name === $_SESSION['system_web_module']) ? 'active' : ''; ?>">
-                  <?php echo $value->icon;?>
-                  <p><?php echo $value->name;?>
-                  <i class="fas fa-angle-left right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="../tables/simple.html" class="nav-link">
-                        <i class="fas fa-circle nav-icon"></i>
-                        <p><?php echo $value->name; ?></p>
-                      </a>
-                    </li>
-                </ul>
-              </li>
+              <?php if (!empty($section_array)): ?>
+                <li class="nav-item <?php echo ($value->name === $_SESSION['system_web_module']) ? 'menu-open' : ''; ?>">
+                  <a href="<?php echo (!empty($value->link)) ? base_url().$value->link : '#'; ?>" class="nav-link <?php echo ($value->name === $_SESSION['system_web_module']) ? 'active' : ''; ?>">
+                    <?php echo $value->icon;?>
+                    <p><?php echo $value->name;?>
+                    <i class="fas fa-angle-left right"></i>
+                    </p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                    <?php foreach ($sidebar_sections as $key => $value): ?>
+                      <li class="nav-item">
+                          <?php if (in_array($value->id, $can_access_sections)): ?>
+                            <a href="<?php echo base_url($value->link); ?>" class="nav-link <?php echo ($value->name === $_SESSION['system_web_section']) ? 'active' : ''; ?>">
+                              <?php echo $value->icon; ?>
+                              <p><?php echo $value->name; ?></p>
+                            </a>
+                          <?php endif; ?>
+                      </li>
+                    <?php endforeach; ?>
+                  </ul>
+                </li>
+              <?php endif; ?>
             <?php endif; ?> 
           <?php endforeach; ?>
         </ul>
@@ -71,8 +77,5 @@
     <!-- /.sidebar -->
   </aside>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+
+
