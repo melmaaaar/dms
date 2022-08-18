@@ -39,7 +39,7 @@
             <?php if (empty($sidebar_sections)): ?>
               <?php if (in_array($value->id, $can_access_modules)): ?>
                 <li class="nav-item">
-                  <a href="<?php echo (!empty($value->link)) ? base_url().$value->link : '#'; ?>" class="nav-link <?php echo ($value->name === $_SESSION['system_web_module']) ? 'active' : ''; ?>">
+                  <a href="<?php echo (!empty($value->link)) ? base_url().$value->link : 'javascript:void(0);'; ?>" class="nav-link <?php echo ($value->name === $_SESSION['system_web_module']) ? 'active' : ''; ?>">
                     <?php echo $value->icon;?>
                     <p><?php echo $value->name;?></p>
                   </a>
@@ -48,7 +48,7 @@
             <?php else: ?>
               <?php if (!empty($section_array)): ?>
                 <li class="nav-item <?php echo ($value->name === $_SESSION['system_web_module']) ? 'menu-open' : ''; ?>">
-                  <a href="<?php echo (!empty($value->link)) ? base_url().$value->link : '#'; ?>" class="nav-link <?php echo ($value->name === $_SESSION['system_web_module']) ? 'active' : ''; ?>">
+                  <a href="<?php echo (!empty($value->link)) ? base_url().$value->link : 'javascript:void(0);'; ?>" class="nav-link <?php echo ($value->name === $_SESSION['system_web_module']) ? 'active' : ''; ?>">
                     <?php echo $value->icon;?>
                     <p><?php echo $value->name;?>
                     <i class="fas fa-angle-left right"></i>

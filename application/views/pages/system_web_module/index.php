@@ -26,7 +26,10 @@
             <div class="card card-primary">
                 <!-- header -->
                 <div class="card-header">
-                    <h3 class="card-title">DataTable</h3>
+                    <div class="d-flex justify-content-between">
+                      <h4>DataTable</h4>
+                      <a class="btn btn-success" href="<?php echo base_url();?>system_web_module/create"><i class="fas fa-plus"></i>&nbsp;&nbsp;Create</a>
+                    </div>  
                 </div>
                 <!-- /.card-header -->
                 <!-- body -->

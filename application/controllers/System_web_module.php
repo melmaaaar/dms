@@ -24,6 +24,9 @@ class System_web_module extends CI_Controller {
     // Load Index View
 	public function index()
 	{
+        if (!($this->session->userdata('username')))
+		    redirect('auth/logout'); 
+
 		$_SESSION['system_web_module'] = 'System Setup';
 		$_SESSION['system_web_section'] = 'Web Modules';
 
@@ -62,10 +65,8 @@ class System_web_module extends CI_Controller {
     public function view($id=NULL)
     {
         if (!($this->session->userdata('username')))
-		{
-			redirect('auth/logout'); 
-		}
-
+		    redirect('auth/logout'); 
+		
         $_SESSION['system_web_module'] = 'System Setup';
 		$_SESSION['system_web_section'] = 'Web Modules';
 
@@ -88,8 +89,10 @@ class System_web_module extends CI_Controller {
     // Function to Get All on Table
     public function get_all()
     {
+        if (!($this->session->userdata('username')))
+		    redirect('auth/logout'); 
+
         $data['system_web_module'] = $this->M_system_web_module->get_all();
-        
         echo json_encode($data);
 
     }
@@ -105,11 +108,11 @@ class System_web_module extends CI_Controller {
     // Function to load the view of Create
     public function create()
     {
+        // To check if may session if wala then i logout ka nya
         if (!($this->session->userdata('username')))
-		{
-			redirect('auth/logout'); 
-		}
-
+		    redirect('auth/logout'); 
+		
+            
         $_SESSION['system_web_module'] = 'System Setup';
 		$_SESSION['system_web_section'] = 'Web Modules';
 
@@ -185,6 +188,7 @@ class System_web_module extends CI_Controller {
 			redirect('auth/logout'); 
 		}
 
+
         $_SESSION['system_web_module'] = 'System Setup';
 		$_SESSION['system_web_section'] = 'Web Modules';
 
@@ -195,6 +199,7 @@ class System_web_module extends CI_Controller {
             )
         );
 
+        $data['system_web_module'] = $this->M_system_web_module->get($id);
         $this->load->view('includes/header',$data);
 		$this->load->view('includes/navbar',$data);
 		$this->load->view('includes/sidebar',$data);

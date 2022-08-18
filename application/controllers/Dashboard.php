@@ -21,6 +21,9 @@ class Dashboard extends CI_Controller {
 
 	public function index()
 	{
+		if (!($this->session->userdata('username')))
+		    redirect('auth/logout'); 
+
 		$_SESSION['system_web_module'] = 'Dashboard';
 		$_SESSION['system_web_section'] = '';
 
