@@ -92,6 +92,22 @@ class System_user_role_section_access_model extends CI_Model
         }
         return $array;
     }
+
+    public function get_access($role_id=NULL,$link=NULL)
+    {
+        $query = $this->db->select('*')
+                ->from($this->table.' a')
+                ->join('system_web_sections b','a.web_section_id = b.id', 'inner')
+                ->where('a.deleted_at', NULL)
+                ->where('a.deleted_by', NULL)
+                ->where('b.deleted_at', NULL)
+                ->where('b.deleted_by', NULL)
+                ->where('a.role_id', $role_id)
+                ->where('b.link', $link)
+                ->get(); 
+
+        return $query->result();
+    }
     
 
 }

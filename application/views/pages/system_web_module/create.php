@@ -9,7 +9,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="<?php echo base_url();?>system_web_module/create"><?php echo $_SESSION['system_web_section']; ?></a></li>
+              <li class="breadcrumb-item"><a href="<?php echo base_url();?>system_web_module"><?php echo $_SESSION['system_web_section']; ?></a></li>
               <li class="breadcrumb-item active">Create</li>
             </ol>
           </div>
@@ -22,7 +22,7 @@
       <div class="container-fluid">
         <div class="row">
           <!-- left column -->
-          <div class="col-md-12">
+          <div class="col-md-12">   
             <!-- jquery validation -->
             <div class="card card-success">
               <div class="card-header">
@@ -30,7 +30,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form id="quickForm">
+              <form id="form">
                 <div class="card-body">
                     <?php $this->load->view('pages/system_web_module/_form.php') ?>  
                 </div>

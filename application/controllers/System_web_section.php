@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class System_web_module extends CI_Controller {
+class System_web_section extends CI_Controller {
 	
 	public function __construct()
     {
@@ -28,7 +28,7 @@ class System_web_module extends CI_Controller {
         if (!($this->session->userdata('username')))
 		    redirect('auth/logout'); 
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_section'); //.change
         if (!$role[0]->can_access)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';
@@ -36,8 +36,8 @@ class System_web_module extends CI_Controller {
             return;
         }
 
-		$_SESSION['system_web_module'] = 'System Setup';
-		$_SESSION['system_web_section'] = 'Web Modules';
+		$_SESSION['system_web_module'] = 'System Setup'; //.change if new module
+		$_SESSION['system_web_section'] = 'Web Sections'; //.change
 
 		$data['page_info'] = array(
             'styles_path' => array(
@@ -58,14 +58,14 @@ class System_web_module extends CI_Controller {
                 'assets/plugins/datatables-buttons/js/buttons.html5.min',
                 'assets/plugins/datatables-buttons/js/buttons.print.min',
                 'assets/plugins/datatables-buttons/js/buttons.colVis.min',
-                'assets/js/pages/system_web_module/index'
+                'assets/js/pages/system_web_section/index' //.change
             )
         );
 
 		$this->load->view('includes/header',$data);
 		$this->load->view('includes/navbar',$data);
 		$this->load->view('includes/sidebar',$data);
-		$this->load->view('pages/system_web_module/index',$data); // content
+		$this->load->view('pages/system_web_section/index',$data); // content //.change
 		$this->load->view('includes/footer',$data);
 		
 	}
@@ -76,7 +76,7 @@ class System_web_module extends CI_Controller {
         if (!($this->session->userdata('username')))
 		    redirect('auth/logout'); 
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_section');
         if (!$role[0]->can_view)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';
@@ -85,20 +85,20 @@ class System_web_module extends CI_Controller {
         }
 		
         $_SESSION['system_web_module'] = 'System Setup';
-		$_SESSION['system_web_section'] = 'Web Modules';
+		$_SESSION['system_web_section'] = 'Web Sections';
 
         $data['page_info'] = array(
             'styles_path' => '',
             'scripts_path' => array(
-                'assets/js/pages/system_web_module/view'
+                'assets/js/pages/system_web_section/view' //.change
             )
         );
 
-        $data['system_web_module'] = $this->M_system_web_module->get($id); // GET
+        $data['system_web_section'] = $this->M_system_web_section->get($id); // GET  //.change
         $this->load->view('includes/header',$data);
 		$this->load->view('includes/navbar',$data);
 		$this->load->view('includes/sidebar',$data);
-		$this->load->view('pages/system_web_module/view',$data);
+		$this->load->view('pages/system_web_section/view',$data); //.change
 		$this->load->view('includes/footer',$data);
 
     }
@@ -110,7 +110,7 @@ class System_web_module extends CI_Controller {
         if (!($this->session->userdata('username')))
 		    redirect('auth/logout'); 
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_section'); //.change
         if (!$role[0]->can_view)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';
@@ -118,7 +118,7 @@ class System_web_module extends CI_Controller {
             return;
         }
 
-        $data['system_web_module'] = $this->M_system_web_module->get_all();
+        $data['system_web_section'] = $this->M_system_web_section->get_all(); //.change
         echo json_encode($data);
 
     }
@@ -128,7 +128,7 @@ class System_web_module extends CI_Controller {
         if (!($this->session->userdata('username')))
 		    redirect('auth/logout'); 
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_section'); //.change
         if (!$role[0]->can_view)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';
@@ -136,7 +136,7 @@ class System_web_module extends CI_Controller {
             return;
         }
 
-        $data['data'] = $this->M_system_web_module->get_all();
+        $data['data'] = $this->M_system_web_section->get_all(); //.change
         echo json_encode($data);
 
     }
@@ -148,7 +148,7 @@ class System_web_module extends CI_Controller {
         if (!($this->session->userdata('username')))
 		    redirect('auth/logout'); 
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_section'); //.change
         if (!$role[0]->can_create)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';
@@ -156,22 +156,22 @@ class System_web_module extends CI_Controller {
             return;
         }
             
-        $_SESSION['system_web_module'] = 'System Setup';
-		$_SESSION['system_web_section'] = 'Web Modules';
+        $_SESSION['system_web_module'] = 'System Setup'; //.change if new module
+		$_SESSION['system_web_section'] = 'Web Sections'; //.change
 
         $data['page_info'] = array(
             'styles_path' => '',
             'scripts_path' => array(
                 'assets/plugins/jquery-validation/jquery.validate.min',
                 'assets/plugins/jquery-validation/additional-methods.min',
-                'assets/js/pages/system_web_module/create'
+                'assets/js/pages/system_web_section/create' //.change
             )
         );
 
         $this->load->view('includes/header',$data);
 		$this->load->view('includes/navbar',$data);
 		$this->load->view('includes/sidebar',$data);
-		$this->load->view('pages/system_web_module/create',$data);
+		$this->load->view('pages/system_web_section/create',$data); //.change
 		$this->load->view('includes/footer',$data);
     }
 
@@ -180,7 +180,7 @@ class System_web_module extends CI_Controller {
         $response['status'] = 0;
         $response['message'] = 'Something went wrong. Please contact your technical support.';
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_section'); //.change
         if (!$role[0]->can_create)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';
@@ -190,6 +190,7 @@ class System_web_module extends CI_Controller {
 
         if($this->input->post())
         {
+            $web_module_id = $this->security->xss_clean($this->input->post('web_module_id'));
             $name = $this->security->xss_clean($this->input->post('name'));
             $code = $this->security->xss_clean($this->input->post('code'));
             $description = $this->security->xss_clean($this->input->post('description'));
@@ -198,9 +199,10 @@ class System_web_module extends CI_Controller {
             $ctr = $this->security->xss_clean($this->input->post('ctr'));
             $is_active = $this->security->xss_clean($this->input->post('is_active'));
 
-            if($name!=='' &&  $code!=='')
+            if($name!=='' &&  $code!=='' && $web_module_id>0)
             {
                 $data = array (
+                    'web_module_id' => $web_module_id,
                     'name' => $name,
                     'code' => $code,
                     'description' => $description,
@@ -212,14 +214,14 @@ class System_web_module extends CI_Controller {
                     'created_at' => $this->security->xss_clean(date('y-m-d H:i:s'))
                 );
 
-                $id = $this->M_system_web_module->insert($data);
+                $id = $this->M_system_web_section->insert($data); //.change
 
                 if($id){
 
                     if($_SESSION['role_id']==1){
                         $data = array (
                             'role_id' => 1,
-                            'web_module_id' => $id,
+                            'web_section_id' => $id,
                             'can_access' => 1,
                             'can_view' => 1,
                             'can_create' => 1,
@@ -229,7 +231,7 @@ class System_web_module extends CI_Controller {
                             'created_at' => $this->security->xss_clean(date('y-m-d H:i:s'))
                         );
 
-                        $this->M_system_user_role_module_access->insert($data);
+                        $this->M_system_user_role_section_access->insert($data); //.change
                     }
                     
                     $response['status'] = 1;
@@ -256,7 +258,7 @@ class System_web_module extends CI_Controller {
         if (!($this->session->userdata('username')))
 			redirect('auth/logout'); 
 		
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_section'); //.change
         if (!$role[0]->can_edit)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';
@@ -264,23 +266,23 @@ class System_web_module extends CI_Controller {
             return;
         }
 
-        $_SESSION['system_web_module'] = 'System Setup';
-		$_SESSION['system_web_section'] = 'Web Modules';
+        $_SESSION['system_web_module'] = 'System Setup'; //.change if new module
+		$_SESSION['system_web_section'] = 'Web Sections'; //.change
 
         $data['page_info'] = array(
             'styles_path' => '',
             'scripts_path' => array(
                 'assets/plugins/jquery-validation/jquery.validate.min',
                 'assets/plugins/jquery-validation/additional-methods.min',
-                'assets/js/pages/system_web_module/edit'
+                'assets/js/pages/system_web_section/edit' //.change
             )
         );
 
-        $data['system_web_module'] = $this->M_system_web_module->get($id);
+        $data['system_web_section'] = $this->M_system_web_section->get($id); //.change
         $this->load->view('includes/header',$data);
 		$this->load->view('includes/navbar',$data);
 		$this->load->view('includes/sidebar',$data);
-		$this->load->view('pages/system_web_module/edit',$data);
+		$this->load->view('pages/system_web_section/edit',$data); //.change
 		$this->load->view('includes/footer',$data);
     }
 
@@ -289,7 +291,7 @@ class System_web_module extends CI_Controller {
         $response['status'] = 0;
         $response['message'] = 'Something went wrong. Please contact your technical support.';
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_section'); //.change
         if (!$role[0]->can_edit)
         {
             
@@ -300,9 +302,11 @@ class System_web_module extends CI_Controller {
 
         if($this->input->post())
         {
+           
             
             $id = $this->security->xss_clean($this->input->post('id'));
             
+            $web_module_id = $this->security->xss_clean($this->input->post('web_module_id'));
             $name = $this->security->xss_clean($this->input->post('name'));
             $code = $this->security->xss_clean($this->input->post('code'));
             $description = $this->security->xss_clean($this->input->post('description'));
@@ -311,11 +315,11 @@ class System_web_module extends CI_Controller {
             $ctr = $this->security->xss_clean($this->input->post('ctr'));
             $is_active = $this->security->xss_clean($this->input->post('is_active'));
 
-            if($name!=='' &&  $code!=='')
+            if($name!=='' &&  $code!=='' && $web_module_id>0)
             {
 
-
                 $data = array (
+                    'web_module_id' => $web_module_id,
                     'name' => $name,
                     'code' => $code,
                     'description' => $description,
@@ -327,7 +331,7 @@ class System_web_module extends CI_Controller {
                     'updated_at' => $this->security->xss_clean(date('y-m-d H:i:s'))
                 );
 
-                $id = $this->M_system_web_module->update($data,$id);
+                $id = $this->M_system_web_section->update($data,$id); //.change
 
                 if($id){
 
@@ -358,7 +362,7 @@ class System_web_module extends CI_Controller {
         $response['status'] = 0;
         $response['message'] = 'Something went wrong. Please contact your technical support.';
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_section');
         if (!$role[0]->can_delete)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';
@@ -371,7 +375,7 @@ class System_web_module extends CI_Controller {
             'deleted_at' => date('y-m-d H:i:s'),
         );
 
-        $result = $this->M_system_web_module->delete($data,$id);
+        $result = $this->M_system_web_section->delete($data,$id); //.change
 
         if($result)
         {

@@ -3,12 +3,16 @@ $(document).ready(function() {
     $('#table').DataTable({
         dom: 'Bfrtip',
         ajax: {
-            url: base_url + "/system_web_module/datatable_get_all"
+            url: base_url + "/system_web_section/datatable_get_all"
         },
         columns: [
             {
                 'data': 'id',
                 'visible': false
+            },
+            {
+                'data': 'module_name',
+                'class': 'text-center'
             },
             {
                 'data': 'name',
@@ -65,7 +69,7 @@ $(document).ready(function() {
 $(document).on('click','#view',function(e) {
     e.preventDefault();
     var id = $(this).data("id");
-    window.location = base_url + "system_web_module/view/" + id;
+    window.location = base_url + "system_web_section/view/" + id;
  });
  
  $(document).on('click','#edit',function(e) {
@@ -73,7 +77,7 @@ $(document).on('click','#view',function(e) {
  
     var id = $(this).data("id");
  
-    window.location = base_url + "system_web_module/edit/" + id;
+    window.location = base_url + "system_web_section/edit/" + id;
  
  });
 
@@ -100,7 +104,7 @@ $(document).on('click','#delete',function(e) {
       }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url : base_url + "system_web_module/delete/" + id,
+                url : base_url + "system_web_section/delete/" + id,
                 type: "POST",
                 dataType: 'json'
             }).done(function(response){ 
@@ -120,7 +124,7 @@ $(document).on('click','#delete',function(e) {
                     response['message'],
                     'success'
                 ).then(function() {
-                    window.location = base_url + "system_web_module";
+                    window.location = base_url + "system_web_section";
                 });
             });
 

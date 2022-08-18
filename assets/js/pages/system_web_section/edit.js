@@ -10,7 +10,7 @@ $(document).ready(function() {
         submitHandler: function () {
             var formData = $('#form').serialize();
             $.ajax({
-                url : base_url + "system_web_module/update",
+                url : base_url + "system_web_section/update",
                 type: "POST",
                 data : formData,
                 dataType: 'json'

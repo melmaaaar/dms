@@ -14,7 +14,6 @@ class System_web_modules_model extends CI_Model
             ->from($this->table)
             ->where('deleted_at', NULL)
             ->where('deleted_by', NULL)
-            ->where('is_active', 1)
             ->order_by(1, 'asc')
             ->get();
 
@@ -88,6 +87,14 @@ class System_web_modules_model extends CI_Model
         return $id;
     }
 
+    public function generate_ctr()
+    {
+        $query = $this->db->query("SELECT CASE WHEN MAX(ctr) IS NULL THEN 1 ELSE MAX(ctr) + 1 END AS ctr FROM $this->table")
+                          ->row_array();
+        return $query['ctr'];
+    }
+
+    
     
 
 }

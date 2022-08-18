@@ -9,7 +9,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="<?php echo base_url();?>system_web_module"><?php echo $_SESSION['system_web_section']; ?></a></li>
+              <li class="breadcrumb-item"><a href="<?php echo base_url();?>system_web_section"><?php echo $_SESSION['system_web_section']; ?></a></li>
               <li class="breadcrumb-item active">Edit</li>
             </ol>
           </div>
@@ -32,14 +32,14 @@
               <!-- form start -->
               <form id="form">
                 <div class="card-body">
-                    <?php $this->load->view('pages/system_web_module/_form.php') ?>  
+                    <?php $this->load->view('pages/system_web_section/_form.php') ?>  
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer" style="text-align: center;">
                     <div class="text-center">
                         <button type="submit" class="btn btn-sm btn-warning">Submit</button>
                         &nbsp;
-                        <a href="<?php echo base_url();?>system_web_module" class="btn btn-sm btn-danger">Cancel</a>
+                        <a href="<?php echo base_url();?>system_web_section" class="btn btn-sm btn-danger">Cancel</a>
                     </div>
                   
                 </div>

@@ -12,6 +12,8 @@ assets/documents/*
 assets/qr_codes/*
 assets/img/*
 
+application/config/*
+
 composer.lock
 tests/mocks/database/ci_test.sqlite
 

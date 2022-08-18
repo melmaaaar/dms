@@ -10,10 +10,13 @@ class System_web_sections_model extends CI_Model
 
     public function get_all()
     {
-        $query = $this->db->select('*')
-            ->from($this->table)
-            ->where('deleted_at', NULL)
-            ->where('deleted_by', NULL)
+        $query = $this->db->select('a.*,b.name as module_name')
+            ->from($this->table.' a')
+            ->join('system_web_modules b','a.web_module_id = b.id', 'inner')
+            ->where('a.deleted_at', NULL)
+            ->where('a.deleted_by', NULL)
+            ->where('b.deleted_at', NULL)
+            ->where('b.deleted_by', NULL)
             ->order_by(1, 'asc')
             ->get();
 
@@ -85,6 +88,14 @@ class System_web_sections_model extends CI_Model
                 ->get(); 
 
         return $query->result();
+    }
+
+    public function generate_ctr()
+    {
+        $query = $this->db->query("SELECT CASE WHEN MAX(ctr) IS NULL THEN 1 END AS ctr FROM $this->table")
+            ->row_array();
+
+        return $query['ctr'];
     }
     
 

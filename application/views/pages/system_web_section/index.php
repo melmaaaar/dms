@@ -9,7 +9,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="<?php echo base_url();?>system_web_module"><?php echo $_SESSION['system_web_section']; ?></a></li>
+              <li class="breadcrumb-item"><a href="<?php echo base_url();?>system_web_section"><?php echo $_SESSION['system_web_section']; ?></a></li>
               <li class="breadcrumb-item active">Index</li>
             </ol>
           </div>
@@ -28,7 +28,7 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
                       <h4>DataTable</h4>
-                      <a class="btn btn-success" href="<?php echo base_url();?>system_web_module/create"><i class="fas fa-plus"></i>&nbsp;&nbsp;Create</a>
+                      <a class="btn btn-success" href="<?php echo base_url();?>system_web_section/create"><i class="fas fa-plus"></i>&nbsp;&nbsp;Create</a>
                     </div>  
                 </div>
                 <!-- /.card-header -->
@@ -38,11 +38,12 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Web Module</th>
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Link</th>
                                 <th style="width:5%;">Sequence</th>
-                                <th style="width:5%;">Is Active?</th>
+                                <th style="width:5%;">Is Active</th>
                                 <th style="width:15%;">Actions</th>
                             </tr>
                         </thead>
