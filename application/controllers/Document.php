@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class System_web_module extends CI_Controller {
+class Document extends CI_Controller {
 	
 	public function __construct()
     {
@@ -19,7 +19,7 @@ class System_web_module extends CI_Controller {
 		$this->load->model('System_user_role_section_access_model','M_system_user_role_section_access');
 
         // Load Class Models
-
+        $this->load->model('Documents_model','M_document');
         
     }
 
@@ -30,7 +30,7 @@ class System_web_module extends CI_Controller {
         if (!($this->session->userdata('username')))
 		    redirect('auth/logout'); 
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_module_access->get_access($_SESSION['role_id'],'document');
         if (!$role[0]->can_access)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';
@@ -38,8 +38,8 @@ class System_web_module extends CI_Controller {
             return;
         }
 
-		$_SESSION['system_web_module'] = 'System Setup';
-		$_SESSION['system_web_section'] = 'Web Modules';
+		$_SESSION['system_web_module'] = 'Documents';
+		$_SESSION['system_web_section'] = '';
 
 		$data['page_info'] = array(
             'styles_path' => array(
@@ -60,17 +60,22 @@ class System_web_module extends CI_Controller {
                 'assets/plugins/datatables-buttons/js/buttons.html5.min',
                 'assets/plugins/datatables-buttons/js/buttons.print.min',
                 'assets/plugins/datatables-buttons/js/buttons.colVis.min',
-                'assets/js/pages/system_web_module/index'
+                'assets/js/pages/document/index'
             )
         );
 
 		$this->load->view('includes/header',$data);
 		$this->load->view('includes/navbar',$data);
 		$this->load->view('includes/sidebar',$data);
-		$this->load->view('pages/system_web_module/index',$data); // content
+		$this->load->view('pages/document/index',$data); // content
 		$this->load->view('includes/footer',$data);
 		
 	}
+
+    public function get_role()
+    {
+        $role = $this->M_system_user_role_module_access->get_access(1,'document');
+    }
 
     // for user role of VIEW ONLY
     public function view($id=NULL)
@@ -78,7 +83,7 @@ class System_web_module extends CI_Controller {
         if (!($this->session->userdata('username')))
 		    redirect('auth/logout'); 
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_module_access->get_access($_SESSION['role_id'],'document');
         if (!$role[0]->can_view)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';
@@ -86,21 +91,21 @@ class System_web_module extends CI_Controller {
             return;
         }
 		
-        $_SESSION['system_web_module'] = 'System Setup';
-		$_SESSION['system_web_section'] = 'Web Modules';
+        $_SESSION['system_web_module'] = 'Documents';
+		$_SESSION['system_web_section'] = '';
 
         $data['page_info'] = array(
             'styles_path' => '',
             'scripts_path' => array(
-                'assets/js/pages/system_web_module/view'
+                'assets/js/pages/document/view'
             )
         );
 
-        $data['system_web_module'] = $this->M_system_web_module->get($id); // GET
+        $data['document'] = $this->M_system_web_module->get($id); // GET
         $this->load->view('includes/header',$data);
 		$this->load->view('includes/navbar',$data);
 		$this->load->view('includes/sidebar',$data);
-		$this->load->view('pages/system_web_module/view',$data);
+		$this->load->view('pages/document/view',$data);
 		$this->load->view('includes/footer',$data);
 
     }
@@ -112,7 +117,7 @@ class System_web_module extends CI_Controller {
         if (!($this->session->userdata('username')))
 		    redirect('auth/logout'); 
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_module_access->get_access($_SESSION['role_id'],'document');
         if (!$role[0]->can_view)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';
@@ -120,7 +125,7 @@ class System_web_module extends CI_Controller {
             return;
         }
 
-        $data['system_web_module'] = $this->M_system_web_module->get_all();
+        $data['document'] = $this->M_document->get_all();
         echo json_encode($data);
 
     }
@@ -130,7 +135,7 @@ class System_web_module extends CI_Controller {
         if (!($this->session->userdata('username')))
 		    redirect('auth/logout'); 
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_module_access->get_access($_SESSION['role_id'],'document');
         if (!$role[0]->can_view)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';
@@ -138,7 +143,7 @@ class System_web_module extends CI_Controller {
             return;
         }
 
-        $data['data'] = $this->M_system_web_module->get_all();
+        $data['data'] = $this->M_document->get_all();
         echo json_encode($data);
 
     }
@@ -150,7 +155,7 @@ class System_web_module extends CI_Controller {
         if (!($this->session->userdata('username')))
 		    redirect('auth/logout'); 
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_module_access->get_access($_SESSION['role_id'],'document');
         if (!$role[0]->can_create)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';
@@ -158,22 +163,22 @@ class System_web_module extends CI_Controller {
             return;
         }
             
-        $_SESSION['system_web_module'] = 'System Setup';
-		$_SESSION['system_web_section'] = 'Web Modules';
+        $_SESSION['system_web_module'] = 'Documents';
+		$_SESSION['system_web_section'] = '';
 
         $data['page_info'] = array(
             'styles_path' => '',
             'scripts_path' => array(
                 'assets/plugins/jquery-validation/jquery.validate.min',
                 'assets/plugins/jquery-validation/additional-methods.min',
-                'assets/js/pages/system_web_module/create'
+                'assets/js/pages/document/create'
             )
         );
 
         $this->load->view('includes/header',$data);
 		$this->load->view('includes/navbar',$data);
 		$this->load->view('includes/sidebar',$data);
-		$this->load->view('pages/system_web_module/create',$data);
+		$this->load->view('pages/document/create',$data);
 		$this->load->view('includes/footer',$data);
     }
 
@@ -182,7 +187,7 @@ class System_web_module extends CI_Controller {
         $response['status'] = 0;
         $response['message'] = 'Something went wrong. Please contact your technical support.';
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_module_access->get_access($_SESSION['role_id'],'document');
         if (!$role[0]->can_create)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';
@@ -258,7 +263,7 @@ class System_web_module extends CI_Controller {
         if (!($this->session->userdata('username')))
 			redirect('auth/logout'); 
 		
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_module_access->get_access($_SESSION['role_id'],'document');
         if (!$role[0]->can_edit)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';
@@ -266,23 +271,23 @@ class System_web_module extends CI_Controller {
             return;
         }
 
-        $_SESSION['system_web_module'] = 'System Setup';
-		$_SESSION['system_web_section'] = 'Web Modules';
+        $_SESSION['system_web_module'] = 'Documents';
+		$_SESSION['system_web_section'] = '';
 
         $data['page_info'] = array(
             'styles_path' => '',
             'scripts_path' => array(
                 'assets/plugins/jquery-validation/jquery.validate.min',
                 'assets/plugins/jquery-validation/additional-methods.min',
-                'assets/js/pages/system_web_module/edit'
+                'assets/js/pages/document/edit'
             )
         );
 
-        $data['system_web_module'] = $this->M_system_web_module->get($id);
+        $data['document'] = $this->M_system_web_module->get($id);
         $this->load->view('includes/header',$data);
 		$this->load->view('includes/navbar',$data);
 		$this->load->view('includes/sidebar',$data);
-		$this->load->view('pages/system_web_module/edit',$data);
+		$this->load->view('pages/document/edit',$data);
 		$this->load->view('includes/footer',$data);
     }
 
@@ -291,7 +296,7 @@ class System_web_module extends CI_Controller {
         $response['status'] = 0;
         $response['message'] = 'Something went wrong. Please contact your technical support.';
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_module_access->get_access($_SESSION['role_id'],'document');
         if (!$role[0]->can_edit)
         {
             
@@ -360,7 +365,7 @@ class System_web_module extends CI_Controller {
         $response['status'] = 0;
         $response['message'] = 'Something went wrong. Please contact your technical support.';
 
-        $role = $this->M_system_user_role_section_access->get_access($_SESSION['role_id'],'system_web_module');
+        $role = $this->M_system_user_role_module_access->get_access($_SESSION['role_id'],'document');
         if (!$role[0]->can_delete)
         {
             $response['message'] = 'You are not authorized for this action. Please contact your technical support.';

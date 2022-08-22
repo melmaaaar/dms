@@ -11,7 +11,7 @@
     $is_active        =    isset($system_web_module[0]->id) && $system_web_module[0]->id ? $system_web_module[0]->is_active : 1;
 ?>
 
-<input type="text" id="id" name="id" class="form-control"  placeholder="Enter name" value='<?php echo $id;?>' hidden>
+<input type="text" id="id" name="id" class="form-control"  placeholder="ID" value='<?php echo $id;?>' hidden>
 <div class="row">
     <div class="col-md-3">
         <div class="form-group">    

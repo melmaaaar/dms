@@ -1,32 +1,19 @@
 
 <?php
-    $id      =    isset($system_web_section[0]->id) && $system_web_section[0]->id ? $system_web_section[0]->id : 0;
+    $id      =    isset($document[0]->id) && $document[0]->id ? $document[0]->id : 0;
 
-    $web_module_id = isset($system_web_section[0]->web_module_id) && $system_web_section[0]->web_module_id ? $system_web_section[0]->web_module_id : 0;
-    $name            =    isset($system_web_section[0]->name) && $system_web_section[0]->name ? $system_web_section[0]->name : '';
-    $code            =    isset($system_web_section[0]->code) && $system_web_section[0]->code ? $system_web_section[0]->code : '';
-    $description            =    isset($system_web_section[0]->description) && $system_web_section[0]->description ? $system_web_section[0]->description : '';
-    $link        =    isset($system_web_section[0]->link) && $system_web_section[0]->link ? $system_web_section[0]->link : '';
-    $icon        =    isset($system_web_section[0]->icon) && $system_web_section[0]->icon ? $system_web_section[0]->icon : '';
-    $ctr        =    isset($system_web_section[0]->ctr) && $system_web_section[0]->ctr ? $system_web_section[0]->ctr : $this->M_system_web_section->generate_ctr();
-    $is_active        =    isset($system_web_section[0]->id) && $system_web_section[0]->id ? $system_web_section[0]->is_active : 1;
-
-    $web_modules = $this->M_system_web_module->get_all();
+    $code            =    isset($document[0]->code) && $document[0]->code ? $document[0]->code : '';
+    $title            =    isset($document[0]->title) && $document[0]->title ? $document[0]->title : '';
+    $rgv_document_type_id            =    isset($document[0]->rgv_document_type_id) && $document[0]->rgv_document_type_id ? $document[0]->rgv_document_type_id : 0;
+    $rgv_document_tlp_code_id            =    isset($document[0]->rgv_document_tlp_code_id) && $document[0]->rgv_document_tlp_code_id ? $document[0]->rgv_document_tlp_code_id : 0;
+    $rgv_document_tlp_code_id            =    isset($document[0]->rgv_document_status_id) && $document[0]->rgv_document_status_id ? $document[0]->rgv_document_status_id : 0;
+    $document_date            =    isset($document[0]->document_date) && $document[0]->document_date ? new DATE($document[0]->document_date) : NULL;
+    $remarks            =    isset($document[0]->remarks) && $document[0]->remarks ? $document[0]->remarks : '';
+    
 ?>
 
 <input type="text" id="id" name="id" class="form-control"  placeholder="ID" value='<?php echo $id;?>' hidden>
 <div class="row">
-    <div class="col-md-3">
-        <div class="form-group">    
-            <label for="name">Web Module<code> *</code></label>
-            <select id="web_module_id" name="web_module_id" class="form-control">
-                <option value="0" >Select Module</option>
-                <?php foreach($web_modules as $value) : ?>
-                <option value="<?php echo $value->id; ?>" <?php echo ($value->id == $web_module_id) ? ' selected': ''; ?>><?php echo $value->name; ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-    </div>
     <div class="col-md-3">
         <div class="form-group">    
             <label for="name">Name<code> *</code></label>
@@ -39,7 +26,7 @@
             <input type="text" id="code" name="code" class="form-control" value='<?php echo $code;?>' placeholder="Enter code">
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-7">
         <div class="form-group">
             <label for="description">Description</label>
             <input type="text" id="description" name="description" class="form-control" value='<?php echo $description;?>' placeholder="Enter description">

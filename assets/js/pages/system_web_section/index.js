@@ -62,7 +62,7 @@ $(document).ready(function() {
             "pdf", 
             "print"
         ]
-    }).buttons().container().appendTo('#table_wrapper .col-md-6:eq(0)');;
+    }).buttons().container().appendTo('#table_wrapper .col-md-6:eq(0)');
 });
 
 
