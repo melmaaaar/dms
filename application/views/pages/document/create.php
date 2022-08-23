@@ -1,4 +1,4 @@
-  <!-- Content Wrapper. Contains page content -->
+ <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -30,19 +30,19 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form id="form">
+              <form id="form" method='post' action='' enctype="multipart/form-data">
                 <div class="card-body">
                   <div class="row">
                       <div class="col-md-2">
                           <div class="form-group">    
                               <label for="document_date">Date<code> *</code></label>
-                              <input type="date" id="document_date" name="document_date" class="form-control">
+                              <input type="date" id="document_date" name="document_date" class="form-control" value="<?php echo date('Y-m-d'); ?>">
                           </div>
                       </div>
-                      <div class="col-md-5">
+                      <div class="col-md-3">
                           <div class="form-group">
-                              <label for="code">Code<code> *</code></label>
-                              <input type="text" id="code" name="code" class="form-control" placeholder="Enter code">
+                              <label for="reference_number">Reference Number<code> *</code></label>
+                              <input type="text" id="reference_number" name="reference_number" class="form-control" placeholder="Enter reference number">
                           </div>
                       </div>
                       <div class="col-md-3">
@@ -50,63 +50,73 @@
                           <div class="form-group">  
                               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn bg-red">
-                                  <input type="radio" name="tlp_code" id="tlp_red" autocomplete="off" checked=""> Red
+                                  <input type="radio" name="rgv_document_tlp_code_id" id="tlp_red" autocomplete="off" value="10" checked=""> Red
                                 </label>
                                 <label class="btn bg-yellow">
-                                  <input type="radio" name="tlp_code" id="tlp_amber" autocomplete="off"> Amber
+                                  <input type="radio" name="rgv_document_tlp_code_id" id="tlp_amber" autocomplete="off" value="11"> Amber
                                 </label>
                                 <label class="btn bg-green">
-                                  <input type="radio" name="tlp_code" id="tlp_green" autocomplete="off"> Green
+                                  <input type="radio" name="rgv_document_tlp_code_id" id="tlp_green" autocomplete="off" value="12"> Green
                                 </label>
                                 <label class="btn bg-white">
-                                  <input type="radio" name="tlp_code" id="tlp_white" autocomplete="off"> White
+                                  <input type="radio" name="rgv_document_tlp_code_id" id="tlp_white" autocomplete="off" value="13"> White
                                 </label>
                               </div>
                           </div>
                       </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="attachments" >File Upload</label>
+                          <div class="input-group">
+                            <div class="custom-file">
+                              <input type="file" class="custom-file-input" id="attachments" name="attachments[]" multiple>
+                              <label id="lbl_file_upload" class="custom-file-label" for="attachments" >Upload attachments</label>
+                            </div>
+                            <div class="input-group-append">
+                                <span id="attachments_reset" class="input-group-text" onclick="resetFile()">Cancel</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                   </div>
                   <div class="row">
+                      <div class="col-md-8">
+                          <div class="form-group">
+                              <label for="title">Title<code> *</code></label>
+                              <input type="text" id="title" name="title" class="form-control" placeholder="Enter title">
+                          </div>
+                      </div>
                       <div class="col-md-2">
-                          <div class="form-group">
-                              <label for="code">Code<code> *</code></label>
-                              <input type="text" id="code" name="code" class="form-control" placeholder="Enter code">
-                          </div>
-                      </div>
-                      <div class="col-md-7">
-                          <div class="form-group">
-                              <label for="description">Description</label>
-                              <input type="text" id="description" name="description" class="form-control" placeholder="Enter description">
-                          </div>
-                      </div>
+                        <div class="form-group">
+                            <label for="rgv_document_type_id">Document Type</label>
+                            <select id="rgv_document_type_id" name="rgv_document_type_id" class="form-control">
+                                <option value="0">No Selection</option>
+                                <option value="3">Office Documents</option>
+                                <option value="4">Incoming Documents</option>
+                                <option value="5">Outgoing Documents</option>
+                                <option value="6">Walk-in Documents</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="rgv_document_status_id">Status</label>
+                            <select id="rgv_document_status_id" name="rgv_document_status_id" class="form-control">
+                                <option value="0">No Selection</option>
+                                <option value="7">Completed</option>
+                                <option value="8">Ongoing</option>
+                                <option value="9">Pending</option>
+                            </select>
+                        </div>
+                    </div>
                   </div>
                   <div class="row">
-                      <div class="col-md-4">
-                          <div class="form-group">
-                              <label for="link">Link</label>
-                              <input type="text" id="link" name="link" class="form-control" placeholder="Enter link">
-                          </div>
-                      </div>
-                      <div class="col-md-4">
-                          <div class="form-group">
-                              <label for="icon">Icon</label>
-                              <input type="text" id="icon" name="icon" class="form-control" placeholder="Enter icon">
-                          </div>
-                      </div>
-                      <div class="col-md-2">
-                          <div class="form-group">
-                              <label for="ctr">Sequence</label>
-                              <input type="number" id="ctr" name="ctr" class="form-control" placeholder="Enter sequence">
-                          </div>
-                      </div>
-                      <div class="col-md-2">
-                          <div class="form-group">
-                              <label for="is_active">Is Active?</label>
-                              <select id="is_active" name="is_active" class="form-control">
-                                  <option value="1" >Yes</option>
-                                  <option value="0" >No</option>
-                              </select>
-                          </div>
-                      </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="remarks">Remarks</label>
+                            <textarea id="remarks" name="remarks" class="form-control" placeholder="Enter remarks"></textarea>
+                        </div>
+                    </div>
                   </div>
                 </div>
                 <!-- /.card-body -->

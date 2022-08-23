@@ -171,6 +171,7 @@ class Document extends CI_Controller {
             'scripts_path' => array(
                 'assets/plugins/jquery-validation/jquery.validate.min',
                 'assets/plugins/jquery-validation/additional-methods.min',
+                'assets/plugins/bs-custom-file-input/bs-custom-file-input.min',
                 'assets/js/pages/document/create'
             )
         );
@@ -388,6 +389,73 @@ class Document extends CI_Controller {
         
         echo json_encode($response);
         
+    }
+
+    public function sample()
+    {
+        try{
+            $countfiles = count($_FILES['attachments']['name']);
+
+            if($this->input->post()){
+                $response['message1'] = $_FILES['attachments']['name'][0];
+                $response['message2'] = $_FILES['attachments']['name'][1];
+                $response['fffff'] = json_encode($_FILES['attachments']);
+            }
+            echo json_encode($response);
+            return;
+        }catch (Exception $e)
+        {
+           echo json_encode($e);
+        }
+        // Count total files
+        
+        
+        if($this->input->file()){
+            $response['message'] = 'this->input->post()';
+            
+        }elseif($_POST['title']){
+            $response['message'] = '$post[submit]';
+        }else{
+            $response['message'] = $countfiles;
+        }
+
+        echo json_encode($response);
+        return
+
+        // Upload Location
+        $upload_location = "uploads/";
+
+        // To store uploaded files path
+        $files_arr = array();
+
+        // Loop all files
+        for($index = 0;$index < $countfiles;$index++){
+
+            if(isset($_FILES['attachments']['name'][$index]) && $_FILES['attachments']['name'][$index] != ''){
+                // File name
+                $filename = $_FILES['attachments']['name'][$index];
+
+                // Get extension
+                $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+                // Valid image extension
+                $valid_ext = array("png","jpeg","jpg");
+
+                // Check extension
+                if(in_array($ext, $valid_ext)){
+
+                    // File path
+                    $path = $upload_location.$filename;
+
+                    // Upload file
+                    if(move_uploaded_file($_FILES['attachments']['tmp_name'][$index],$path)){
+                        $files_arr[] = $path;
+                    }
+                }
+            }
+        }
+
+        echo json_encode($files_arr);
     }
 
 	
