@@ -43,40 +43,42 @@ $(document).ready(function() {
 
             $.ajax({
                 type: 'POST',
-                url: base_url + 'document/sample', 
+                url: base_url + 'document/save', 
                 data: formData,
                 contentType: false,
                 cache: false,
                 processData:false,
+                dataType: 'json'
             }).done(function(response){ 
-                console.log(response);
-                // if(response['status'])
-                // {
-                //       swalWithBootstrapButtons.fire({
-                //         title: 'Success!',
-                //         text: "Do you want to add another one?",
-                //         icon: 'success',
-                //         showCancelButton: true,
-                //         confirmButtonText: 'Yes',
-                //         cancelButtonText: 'No, cancel!',
-                //         reverseButtons: true
-                //       }).then((result) => {
-                //         if (result.isConfirmed) {
-                //             window.location = base_url + "system_web_module/create";
-                //         } else if (
-                //           /* Read more about handling dismissals below */
-                //           result.dismiss === Swal.DismissReason.cancel
-                //         ) {
-                //             window.location = base_url + "system_web_module";
-                //         }
-                //       });
+                 console.log(response);
+                if(response['status'])
+                {
+                      swalWithBootstrapButtons.fire({
+                        title: 'Success!',
+                        text: "Do you want to add another one?",
+                        icon: 'success',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location = base_url + "document/create";
+                        } else if (
+                          /* Read more about handling dismissals below */
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            window.location = base_url + "document";
+                        }
+                      });
 
-                //       return;
-                // }
-                // Toast.fire({
-                //     icon: 'error',
-                //     title: response['message']
-                // });
+                      return;
+                }
+
+                Toast.fire({
+                    icon: 'error',
+                    title: response['message']
+                });
             });
         }
       });
@@ -84,6 +86,9 @@ $(document).ready(function() {
       $('#form').validate({
         rules: {
           document_date: {
+            required: true
+          },
+          document_time: {
             required: true
           },
           reference_number: {
@@ -102,6 +107,9 @@ $(document).ready(function() {
 
         messages: {
           document_date: {
+            required: "This field is required"
+          },
+          document_time: {
             required: "This field is required"
           },
           reference_number: {

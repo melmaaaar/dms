@@ -47,10 +47,7 @@ $(document).ready(function() {
           },
           password: {
             required: true
-          },
-          terms: {
-            required: true
-          },
+          }
         },
         messages: {
           username: {

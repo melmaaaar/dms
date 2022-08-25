@@ -35,14 +35,14 @@
                   <div class="row">
                       <div class="col-md-2">
                           <div class="form-group">    
-                              <label for="document_date">Date<code> *</code></label>
+                              <label for="document_date">Time<code> *</code></label>
                               <input type="date" id="document_date" name="document_date" class="form-control" value="<?php echo date('Y-m-d'); ?>">
                           </div>
                       </div>
-                      <div class="col-md-3">
-                          <div class="form-group">
-                              <label for="reference_number">Reference Number<code> *</code></label>
-                              <input type="text" id="reference_number" name="reference_number" class="form-control" placeholder="Enter reference number">
+                      <div class="col-md-2">
+                          <div class="form-group">    
+                              <label for="document_time">Date<code> *</code></label>
+                              <input type="time" id="document_time" name="document_time" class="form-control" value="<?php echo date('H:i'); ?>">
                           </div>
                       </div>
                       <div class="col-md-3">
@@ -62,6 +62,14 @@
                                   <input type="radio" name="rgv_document_tlp_code_id" id="tlp_white" autocomplete="off" value="13"> White
                                 </label>
                               </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                          <div class="form-group">
+                              <label for="reference_number">Reference Number<code> *</code></label>
+                              <input type="text" id="reference_number" name="reference_number" class="form-control" placeholder="Enter reference number">
                           </div>
                       </div>
                       <div class="col-md-4">

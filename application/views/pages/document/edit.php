@@ -32,7 +32,7 @@
               <!-- form start -->
               <form id="form">
                 <div class="card-body">
-                    <?php $this->load->view('pages/document/_form.php') ?>  
+                    <!-- <?php //$this->load->view('pages/document/_form.php') ?>   -->
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer" style="text-align: center;">

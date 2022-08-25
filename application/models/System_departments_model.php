@@ -1,11 +1,11 @@
 <?php
-class Documents_model extends CI_Model
+class System_departments_model extends CI_Model
 {
 
     function __construct()
     {
         parent::__construct();
-        $this->table = 'documents';
+        $this->table = 'system_departments';
     }
 
     public function get_all()

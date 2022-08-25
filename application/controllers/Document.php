@@ -20,7 +20,11 @@ class Document extends CI_Controller {
 
         // Load Class Models
         $this->load->model('Documents_model','M_document');
-        
+        $this->load->model('Document_attachments_model','M_document_attachment');
+        $this->load->model('System_departments_model','M_department');
+        $this->load->model('System_divisions_model','M_division');
+
+        $this->document_path = 'assets/documents/';
     }
 
     
@@ -188,6 +192,11 @@ class Document extends CI_Controller {
         $response['status'] = 0;
         $response['message'] = 'Something went wrong. Please contact your technical support.';
 
+        $department = $this->M_department->get($_SESSION['department_id']);
+        $division = $this->M_division->get($_SESSION['division_id']);
+
+        $file_dir = $this->document_path . $department[0]->name . '/' . $division[0]->name . '/';
+
         $role = $this->M_system_user_role_module_access->get_access($_SESSION['role_id'],'document');
         if (!$role[0]->can_create)
         {
@@ -196,64 +205,127 @@ class Document extends CI_Controller {
             return;
         }
 
-        if($this->input->post())
-        {
-            $name = $this->security->xss_clean($this->input->post('name'));
-            $code = $this->security->xss_clean($this->input->post('code'));
-            $description = $this->security->xss_clean($this->input->post('description'));
-            $link = $this->security->xss_clean($this->input->post('link'));
-            $icon = $this->security->xss_clean($this->input->post('icon'));
-            $ctr = $this->security->xss_clean($this->input->post('ctr'));
-            $is_active = $this->security->xss_clean($this->input->post('is_active'));
-
-            if($name!=='' &&  $code!=='')
+            if($this->input->post())
             {
-                $data = array (
-                    'name' => $name,
-                    'code' => $code,
-                    'description' => $description,
-                    'link' => $link,
-                    'icon' => $icon,
-                    'ctr' => $ctr,
-                    'is_active' => $is_active,
-                    'created_by' => $_SESSION['user_id'],
-                    'created_at' => $this->security->xss_clean(date('y-m-d H:i:s'))
-                );
+                $reference_number = $this->security->xss_clean($this->input->post('reference_number'));
+                $title = $this->security->xss_clean($this->input->post('title'));
+                $rgv_document_type_id = $this->security->xss_clean($this->input->post('rgv_document_type_id'));
+                $rgv_document_tlp_code_id = $this->security->xss_clean($this->input->post('rgv_document_tlp_code_id'));
+                $rgv_document_status_id = $this->security->xss_clean($this->input->post('rgv_document_status_id'));
+                $document_date = $this->security->xss_clean($this->input->post('document_date'));
+                $document_time = $this->security->xss_clean($this->input->post('document_time'));
+                $remarks = $this->security->xss_clean($this->input->post('remarks'));
+                $is_walk_in = ($rgv_document_type_id==6) ? 1 : 0;
 
-                $id = $this->M_system_web_module->insert($data);
+                if($reference_number!=='' &&  $title!=='' && $rgv_document_type_id>0 &&  $rgv_document_tlp_code_id>0 && $rgv_document_status_id>0 && $document_date!=='' && $document_time!=='')
+                {
+                    $data = array (
+                        'reference_number' => $reference_number,
+                        'title' => $title,
+                        'rgv_document_type_id' => $rgv_document_type_id,
+                        'rgv_document_tlp_code_id' => $rgv_document_tlp_code_id,
+                        'rgv_document_status_id' => $rgv_document_status_id,
+                        'document_date' => $document_date,
+                        'document_time' => $document_time,
+                        'remarks' => $remarks,
+                        'is_walk_in' => $is_walk_in,
+                        'created_by' => $_SESSION['user_id'],
+                        'created_at' => $this->security->xss_clean(date('y-m-d H:i:s'))
+                    );
 
-                if($id){
+                    $id = $this->M_document->insert($data);
 
-                    if($_SESSION['role_id']==1){
-                        $data = array (
-                            'role_id' => 1,
-                            'web_module_id' => $id,
-                            'can_access' => 1,
-                            'can_view' => 1,
-                            'can_create' => 1,
-                            'can_edit' => 1,
-                            'can_delete' => 1,
-                            'created_by' => $_SESSION['user_id'],
-                            'created_at' => $this->security->xss_clean(date('y-m-d H:i:s'))
-                        );
+                    if($id){
 
-                        $this->M_system_user_role_module_access->insert($data);
+                        if (!empty($_FILES['attachments']['name'][0]))
+                        { 
+
+                            
+
+                            //Directory does not exist, so lets create it.
+                            if(!is_dir($file_dir))
+                            {
+                                if (!mkdir($file_dir, 0755, true)) {
+                                    $response['info'] = array (
+                                        'file_dir' => 'Failed to create directories...'
+                                    );
+                                    
+                                }else{
+                                    $response['info'] = array (
+                                        'file_dir' => 'create success!'
+                                    );
+                                }
+                            }
+
+                            // if(!is_dir($file_dir . '/' + $department[0]->name . '/'))
+                            //     mkdir($file_dir . '/' + $department[0]->name . '/', 0755);
+
+                            // if(!is_dir($file_dir . '/' + $department[0]->name .'/' + $division[0]->name . '/'))
+                            //     mkdir($file_dir . '/' + $department[0]->name . '/' + $division[0]->name . '/', 0755);
+
+                            // $document_path = $file_dir + '/' + $department[0]->name + '/' + $division[0]->name + '/';
+
+                            $countfiles = count($_FILES['attachments']['name']);
+                            // To store uploaded files path
+                            $files_arr = array();
+
+                            // Loop all files
+                            for($index = 0;$index < $countfiles;$index++){
+
+                                if(isset($_FILES['attachments']['name'][$index]) && $_FILES['attachments']['name'][$index] != ''){
+                                    // File name
+                                    $filename = $_FILES['attachments']['name'][$index];
+
+                                    // Get extension
+                                    $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+                                    // Valid image extension
+                                    // $valid_ext = array("png","jpeg","jpg");
+
+                                    // Check extension
+                                    // if(in_array($ext, $valid_ext)){
+                                        if(!is_dir($file_dir .'/'. $id. '/'))
+                                            mkdir($file_dir .'/'. $id. '/',0755,true);
+
+                                        // File path
+                                        $path = $file_dir .'/'. $id. '/' . $filename;
+                                        
+                                        // Upload file
+                                        if(move_uploaded_file($_FILES['attachments']['tmp_name'][$index],$path)){
+                                            $files_arr[] = $path;
+
+                                            $data = array (
+                                                'document_id' => $id,
+                                                'document_routing_id' => 0,
+                                                'file_name' => $filename,
+                                                'file_path' => $file_dir,
+                                                'created_by' => $_SESSION['user_id'],
+                                                'created_at' => $this->security->xss_clean(date('y-m-d H:i:s'))
+                                            );
+
+                                            $this->M_document_attachment->insert($data);
+                                        }
+                                    // }
+                                }
+                            }
+
+                        }
+
+                        
+                        $response['status'] = 1;
+                        $response['message'] = 'Successful!';
+
+                        //abang para sa user action logs
+
+                        echo json_encode($response);
+                        return;
                     }
-                    
-                    $response['status'] = 1;
-                    $response['message'] = 'Successful!';
 
-                    //abang para sa user action logs
-
-                    echo json_encode($response);
-                    return;
+                }else{
+                    $response['message'] = 'Please fill up the required fields. Thank you.';
                 }
-
-            }else{
-                $response['message'] = 'Please fill up the required fields. Thank you.';
             }
-        }
-
+            
         echo json_encode($response);
 
     }

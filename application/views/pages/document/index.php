@@ -37,13 +37,15 @@
                     <table id="table" class="table table-bordered table-striped" width="100%">
                         <thead>
                             <tr>
+                                <th style="width:5%;">#</th>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Link</th>
-                                <th style="width:5%;">Sequence</th>
-                                <th style="width:5%;">Is Active?</th>
+                                <th style="width:10%;">Date</th>
+                                <th style="width:10%;">Reference Number</th>
+                                <th>Title</th>
+                                <th style="width:10%;">Document Type</th>
+                                <th style="width:10%;">Status</th>
                                 <th style="width:15%;">Actions</th>
+                                <th>Remarks</th>
                             </tr>
                         </thead>
                     </table>
