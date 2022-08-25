@@ -46,7 +46,7 @@
                           </div>
                       </div>
                       <div class="col-md-3">
-                          <label for="document_date">Traffic Light Protocol(TLP) Code<code> *</code></label>
+                          <label for="rgv_document_tlp_code_id">Traffic Light Protocol(TLP) Code<code> *</code></label>
                           <div class="form-group">  
                               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn bg-red">

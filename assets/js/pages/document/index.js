@@ -27,11 +27,11 @@ $(document).ready(function() {
                     if(full.rgv_document_tlp_code_id==10)
                         return '<span class="badge bg-danger"><i class"fas fa-circle"></i></span> ' + full.reference_number;
                     else if(full.rgv_document_tlp_code_id==11)
-                        return '<span class="badge bg-yellow"><i class"fas fa-circle"></i></span> ' + full.reference_number;
-                    else if(full.rgv_document_tlp_code_id==10)
-                        return '<span class="badge bg-green"><i class"fas fa-circle"></i></span> ' + full.reference_number;
+                        return '<span class="badge bg-warning"><i class"fas fa-circle"></i></span> ' + full.reference_number;
+                    else if(full.rgv_document_tlp_code_id==12)
+                        return '<span class="badge bg-success"><i class"fas fa-circle"></i></span> ' + full.reference_number;
                     else
-                        return '<span class="badge bg-white"><i class"fas fa-circle"></i></span> ' + full.reference_number;
+                        return '<span class="badge bg-light"><i class"fas fa-circle"></i></span> ' + full.reference_number;
                 }
             },
             {

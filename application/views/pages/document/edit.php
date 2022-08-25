@@ -1,3 +1,17 @@
+  
+<?php
+    $id      =    isset($document[0]->id) && $document[0]->id ? $document[0]->id : 0;
+
+    $reference_number            =    isset($document[0]->reference_number) && $document[0]->reference_number ? $document[0]->reference_number : 'N/A';
+    $title            =    isset($document[0]->title) && $document[0]->title ? $document[0]->title : 'N/A';
+    $rgv_document_type_id            =    isset($document[0]->rgv_document_type_id) && $document[0]->rgv_document_type_id ? $document[0]->rgv_document_type_id : 0;
+    $rgv_document_tlp_code_id            =    isset($document[0]->rgv_document_tlp_code_id) && $document[0]->rgv_document_tlp_code_id ? $document[0]->rgv_document_tlp_code_id : 0;
+    $rgv_document_status_id            =    isset($document[0]->rgv_document_status_id) && $document[0]->rgv_document_status_id ? $document[0]->rgv_document_status_id : 0;
+    $document_date            =    isset($document[0]->document_date) && $document[0]->document_date ? $document[0]->document_date : NULL;
+    $document_time            =    isset($document[0]->document_time) && $document[0]->document_time ? $document[0]->document_time : NULL;
+    $remarks            =    isset($document[0]->remarks) && $document[0]->remarks ? $document[0]->remarks : 'N/A';
+    
+?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -19,35 +33,36 @@
 
     <!-- Main content -->
     <section class="content">
+      <input type="text" id="id" name="id" class="form-control" value='<?php echo $id; ?>' hidden>
       <div class="container-fluid">
         <div class="row">
           <!-- left column -->
-          <div class="col-md-12">   
-            <!-- jquery validation -->
-            <div class="card card-warning">
-              <div class="card-header">
-                <h3 class="card-title">Edit</h3>
+          <div class="col-md-3">
+              <div id="preview_card">
               </div>
-              <!-- /.card-header -->
-              <!-- form start -->
-              <form id="form">
-                <div class="card-body">
-                    <!-- <?php //$this->load->view('pages/document/_form.php') ?>   -->
+          </div>
+          <!--/.col (left) -->
+          <div class="col-md-9">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a id="_tab_info" class="nav-link" href="javascript(0);" data-toggle="tab">Info</a></li>
+                  <li class="nav-item"><a id="_tab_routes" class="nav-link" href="javascript(0);" data-toggle="tab">Routes</a></li>
+                  <li class="nav-item"><a id="_tab_attachments" class="nav-link" href="javascript(0);" data-toggle="tab">Attachments</a></li>
+                  <li class="nav-item"><a id="_tab_history" class="nav-link" href="#javascript(0);" data-toggle="tab">History</a></li>  
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+                  <div id="tab_content">
+                  </div>
+                  <!-- /.tab-pane -->
                 </div>
-                <!-- /.card-body -->
-                <div class="card-footer" style="text-align: center;">
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-sm btn-warning">Submit</button>
-                        &nbsp;
-                        <a href="<?php echo base_url();?>document" class="btn btn-sm btn-danger">Cancel</a>
-                    </div>
-                  
-                </div>
-              </form>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
             </div>
             <!-- /.card -->
-            </div>
-          <!--/.col (left) -->
+          </div>
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
