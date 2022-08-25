@@ -216,6 +216,7 @@ class Document extends CI_Controller {
                 $document_time = $this->security->xss_clean($this->input->post('document_time'));
                 $remarks = $this->security->xss_clean($this->input->post('remarks'));
                 $is_walk_in = ($rgv_document_type_id==6) ? 1 : 0;
+                $completion_date = ($rgv_document_status_id==7) ? date('y-m-d H:i:s') : NULL;
 
                 if($reference_number!=='' &&  $title!=='' && $rgv_document_type_id>0 &&  $rgv_document_tlp_code_id>0 && $rgv_document_status_id>0 && $document_date!=='' && $document_time!=='')
                 {
@@ -229,6 +230,7 @@ class Document extends CI_Controller {
                         'document_time' => $document_time,
                         'remarks' => $remarks,
                         'is_walk_in' => $is_walk_in,
+                        'completion_date' => $completion_date,
                         'created_by' => $_SESSION['user_id'],
                         'created_at' => $this->security->xss_clean(date('y-m-d H:i:s'))
                     );
@@ -379,54 +381,130 @@ class Document extends CI_Controller {
         }
 
         if($this->input->post())
-        {
-            
-            $id = $this->security->xss_clean($this->input->post('id'));
-            
-            $name = $this->security->xss_clean($this->input->post('name'));
-            $code = $this->security->xss_clean($this->input->post('code'));
-            $description = $this->security->xss_clean($this->input->post('description'));
-            $link = $this->security->xss_clean($this->input->post('link'));
-            $icon = $this->security->xss_clean($this->input->post('icon'));
-            $ctr = $this->security->xss_clean($this->input->post('ctr'));
-            $is_active = $this->security->xss_clean($this->input->post('is_active'));
-
-            if($name!=='' &&  $code!=='')
             {
+                $id = $this->security->xss_clean($this->input->post('id'));
+                $reference_number = $this->security->xss_clean($this->input->post('reference_number'));
+                $title = $this->security->xss_clean($this->input->post('title'));
+                $rgv_document_type_id = $this->security->xss_clean($this->input->post('rgv_document_type_id'));
+                $rgv_document_tlp_code_id = $this->security->xss_clean($this->input->post('rgv_document_tlp_code_id'));
+                $rgv_document_status_id = $this->security->xss_clean($this->input->post('rgv_document_status_id'));
+                $document_date = $this->security->xss_clean($this->input->post('document_date'));
+                $document_time = $this->security->xss_clean($this->input->post('document_time'));
+                $remarks = $this->security->xss_clean($this->input->post('remarks'));
+                $is_walk_in = ($rgv_document_type_id==6) ? 1 : 0;
+                $completion_date = ($rgv_document_status_id==7) ? date('y-m-d H:i:s') : NULL;
+
+                if($reference_number!=='' &&  $title!=='' && $rgv_document_type_id>0 &&  $rgv_document_tlp_code_id>0 && $rgv_document_status_id>0 && $document_date!=='' && $document_time!=='')
+                {
+                    $data = array (
+                        'reference_number' => $reference_number,
+                        'title' => $title,
+                        'rgv_document_type_id' => $rgv_document_type_id,
+                        'rgv_document_tlp_code_id' => $rgv_document_tlp_code_id,
+                        'rgv_document_status_id' => $rgv_document_status_id,
+                        'document_date' => $document_date,
+                        'document_time' => $document_time,
+                        'remarks' => $remarks,
+                        'is_walk_in' => $is_walk_in,
+                        'completion_date' => $completion_date,
+                        'updated_by' => $_SESSION['user_id'],
+                        'updated_at' => $this->security->xss_clean(date('y-m-d H:i:s'))
+                    );
+
+                    $id = $this->M_document->update($data,$id);
+
+                    if($id){
+
+                        if (!empty($_FILES['attachments']['name'][0]))
+                        { 
+                            //Directory does not exist, so lets create it.
+                            if(!is_dir($file_dir))
+                            {
+                                if (!mkdir($file_dir, 0755, true)) {
+                                    $response['info'] = array (
+                                        'file_dir' => 'Failed to create directories...'
+                                    );
+                                    
+                                }else{
+                                    $response['info'] = array (
+                                        'file_dir' => 'create success!'
+                                    );
+                                }
+                            }
+
+                            $countfiles = count($_FILES['attachments']['name']);
+                            // To store uploaded files path
+                            $files_arr = array();
+
+                            // Loop all files
+                            for($index = 0;$index < $countfiles;$index++){
+
+                                if(isset($_FILES['attachments']['name'][$index]) && $_FILES['attachments']['name'][$index] != ''){
+                                    // File name
+                                    $filename = $_FILES['attachments']['name'][$index];
+
+                                    if(!is_dir($file_dir .'/'. $id. '/'))
+                                        mkdir($file_dir .'/'. $id. '/',0755,true);
+
+                                    // File path
+                                    $path = $file_dir .'/'. $id. '/' . $filename;
+                                    
+                                    if(file_exists($path)){
+
+                                        $document_attatchment_id = $this->M_document_attachment->get_by_document($id,$filename);
+
+                                        chmod($path, 0777);
+                                        unlink($path);
+
+                                        // Upload file
+                                        if(move_uploaded_file($_FILES['attachments']['tmp_name'][$index],$path)){
+                                            $files_arr[] = $path;
+
+                                            $data = array (
+                                                'updated_by' => $_SESSION['user_id'],
+                                                'updated_at' => $this->security->xss_clean(date('y-m-d H:i:s'))
+                                            );
+
+                                            $this->M_document_attachment->update($data,$document_attatchment_id);
+                                        }
 
 
-                $data = array (
-                    'name' => $name,
-                    'code' => $code,
-                    'description' => $description,
-                    'link' => $link,
-                    'icon' => $icon,
-                    'ctr' => $ctr,
-                    'is_active' => $is_active,
-                    'updated_by' => $_SESSION['user_id'],
-                    'updated_at' => $this->security->xss_clean(date('y-m-d H:i:s'))
-                );
+                                    }else{
+                                        // Upload file
+                                        if(move_uploaded_file($_FILES['attachments']['tmp_name'][$index],$path)){
+                                            $files_arr[] = $path;
 
-                $id = $this->M_system_web_module->update($data,$id);
+                                            $data = array (
+                                                'document_id' => $id,
+                                                'document_routing_id' => 0,
+                                                'file_name' => $filename,
+                                                'file_path' => $file_dir,
+                                                'created_by' => $_SESSION['user_id'],
+                                                'created_at' => $this->security->xss_clean(date('y-m-d H:i:s'))
+                                            );
 
-                if($id){
+                                            $this->M_document_attachment->insert($data);
+                                        }
+                                    }
+                                    
+                                }
+                            }
 
-                    $response['status'] = 1;
-                    $response['message'] = 'Successful!';
+                        }
 
-                    //abang para sa user action logs
+                        $response['status'] = 1;
+                        $response['message'] = 'Successful!';
 
-                    echo json_encode($response);
-                    return;
+                        //abang para sa user action logs
+                        echo json_encode($response);
+                        return;
+                    }
+
+                }else{
+                    $response['message'] = 'Please fill up the required fields. Thank you.';
                 }
-                
-
-            }else{
-                $response['message'] = 'Please fill up the required fields. Thank you.';
             }
-
-        }
-
+            
         echo json_encode($response);
     }
 

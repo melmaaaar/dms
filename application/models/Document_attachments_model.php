@@ -62,4 +62,17 @@ class Document_attachments_model extends CI_Model
         return $id;
     }
 
+    public function get_by_document($id=NULL,$filename=NULL){
+
+    	$query = $this->db->select('*')
+                ->from($this->table)
+                ->where('deleted_at', NULL)
+                ->where('deleted_by', NULL)
+                ->where("document_id", $id)
+                ->where("file_name", $filename)
+                ->get(); 
+
+        return $query->result();
+    }
+
 }
